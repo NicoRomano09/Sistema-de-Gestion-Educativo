@@ -1,5 +1,6 @@
 import __future__
-from typing import List
+import re
+import bcrypt
 
 class Docente:
     """
@@ -8,19 +9,21 @@ class Docente:
     """
     def __init__(
         self, 
-        id_docente: int, 
+        id_docente: int | None, 
         nombre_docente: str, 
-        apellido_docente: str, 
-        asignaturas: List[int], 
-        cursos: List[int], 
-        divisiones: List[int]
+        apellido_docente: str,
+        email: str,
+        contrasena: str
         ):
         self.__id_docente = id_docente
         self.__nombre_docente = nombre_docente
         self.__apellido_docente = apellido_docente
-        self.__id_asignaturas = asignaturas
-        self.__id_cursos = cursos
-        self.__id_divisiones = divisiones
+        self.__email = email
+        self.__contrasena = contrasena
+        
+        self.id_asignaturas = []
+        self.id_cursos = []
+        self.id_divisiones = []
         
     @property
     def id_docente(self) -> int:
@@ -33,7 +36,7 @@ class Docente:
     @nombre_docente.setter
     def nombre_docente(self, nuevo_nombre: str):
         if not isinstance(nuevo_nombre, str):
-            return TypeError("El nuevo nombre del docente debe ser ingresado en string/cadena de texto para ser válido.")
+            raise TypeError("El nuevo nombre del docente debe ser ingresado en string/cadena de texto para ser válido.")
         self.__nombre_docente = nuevo_nombre
                 
     @property
@@ -43,39 +46,53 @@ class Docente:
     @apellido_docente.setter
     def apellido_docente(self, nuevo_apellido: str):
         if not isinstance(nuevo_apellido, str):
-            return TypeError("El nuevo apellido del docente debe ser ingresado en string/cadena de texto para ser válido.")
+            raise TypeError("El nuevo apellido del docente debe ser ingresado en string/cadena de texto para ser válido.")
         self.__apellido_docente = nuevo_apellido
-    
+        
     @property
-    def id_asignaturas(self) -> List[int]:
-        return self.__id_asignaturas
+    def email(self) -> str:
+        return self.__email
     
-    @id_asignaturas.setter
-    def id_asignaturas(self, id_nueva_asignatura: int):
+    @email.setter
+    def email(self, nuevo_email: str):
+        regex = r'^[a-zA-Z0-9._%+-]+\.[a-zA-Z]{2,}$'
+        if not re.match(regex, nuevo_email):
+            raise ValueError("El nuevo email ingresado no es válido.")
+        self.__email = nuevo_email
+        
+    @property
+    def contrasena(self) -> str:
+        return self.__contrasena
+    
+    @contrasena.setter
+    def contrasena(self, nueva_contrasena):
+        if len(nueva_contrasena) < 8:
+            raise ValueError("La contraseña ingresada debe contener 8 carácteres o mas.")
+        if not any(c.isdigit() for c in nueva_contrasena):
+            raise ValueError("La contraseña debe incluir un número.")
+        
+        # Encriptar y guardar
+        hashed = bcrypt.hashpw(nueva_contrasena.encode("utf-8"), bcrypt.gensalt())
+        self.__contrasena = hashed.decode("utf-8")
+    
+    def agregar_id_asignaturas(self, id_nueva_asignatura: int):
         if not isinstance(id_nueva_asignatura, int):
-            return TypeError("El ID de la nueva asignatura debe ser ingresado como int/entero para ser válido.")
-        self.__id_asignaturas.append(id_nueva_asignatura)
-        
-    @property
-    def id_cursos(self):
-        return self.__id_cursos
-    
-    @id_cursos.setter
-    def id_cursos(self, id_nuevo_curso: int):
+            raise TypeError("El ID de la nueva asignatura debe ser ingresado como int/entero para ser válido.")
+        self.id_asignaturas.append(id_nueva_asignatura)
+
+    def agregar_id_cursos(self, id_nuevo_curso: int):
         if not isinstance(id_nuevo_curso, int):
-            return TypeError("El ID del nuevo curso debe ser ingresado como int/entero para ser válido.")
-        self.__id_cursos.append(id_nuevo_curso)
+            raise TypeError("El ID del nuevo curso debe ser ingresado como int/entero para ser válido.")
+        self.id_cursos.append(id_nuevo_curso)
         
-    @property
-    def id_divisiones(self, id_nueva_division: int):
+    def agregar_id_divisiones(self, id_nueva_division: int):
         if not isinstance(id_nueva_division, int):
-            return TypeError("El ID de la nueva división debe ser ingresado como int/entero para ser válido.")
-        self.__id_divisiones.append(id_nueva_division)
+            raise TypeError("El ID de la nueva división debe ser ingresado como int/entero para ser válido.")
+        self.id_divisiones.append(id_nueva_division)
         
     def mostrar_datos_docente(self) -> str:
         return (
             f"DATOS DEL DOCENTE\n"
             f"ID: {self.id_docente}\n"
             f"Nombre y Apellido: {self.nombre_docente} {self.apellido_docente}\n"
-            f"ID Asignatura: {self.id_asignaturas}"
         )

@@ -5,7 +5,7 @@ class Asignatura:
     Esta entidad representa a la asignatura, matería o especialidad que es impartida por un docente
     en un curso para un grupo de estudiantes.
     """
-    def __init__(self, id_asignatura: int, nombre_asignatura: str):
+    def __init__(self, id_asignatura: int | None, nombre_asignatura: str):
         self.__id_asignatura = id_asignatura
         self.__nombre_asignatura = nombre_asignatura
         
