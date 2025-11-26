@@ -9,17 +9,22 @@ class DBConn:
     def __init__(self, config_file):
         self.config_file = config_file
         self.logger = logging.getLogger("DBConn")
-        
-        self.logger.setLevel(logging.INFO)
-        formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-        stream_handler = logging.StreamHandler()
-        stream_handler.setFormatter(formatter)
-        self.logger.addHandler(stream_handler)
-        
-        if (self.config_file != ""):
+
+        if self.config_file:
             config = configparser.ConfigParser()
-            config_path = pathlib.Path(__file__).parent.absolute()
+            config_path = pathlib.Path(self.config_file)
+
+            if not config_path.is_absolute():
+                config_path = pathlib.Path.cwd() / self.config_file
+
             config.read(config_path)
+
+            if 'database' not in config:
+                raise FileNotFoundError(
+                    f"No se encontró la sección [database] en {config_path}. "
+                    f"Contenido leído: {config.sections()}"
+                )
+
             self.db_config = config['database']
         else:
             self.db_config = None
@@ -33,14 +38,15 @@ class DBConn:
                 user = self.db_config.get('user'),
                 password = self.db_config.get('password'),
                 host = self.db_config.get('host'),
+                database = self.db_config.get('database'),
                 port = self.db_config.get('port')
             )
         except mysql.connector.Error as err:
             self.logger.error(err)
             if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-                raise 'Usuario o Contraseña inválidos.'
+                raise Exception('Usuario o Contraseña inválidos.')
             elif err.errno == errorcode.ER_BAD_DB_ERROR:
-                raise 'La base de datos no existe.'
+                raise Exception('La base de datos no existe.')
             else:
-                raise 'Ocurrió un error inesperado. Contacte al Administrador.'
+                raise Exception('Ocurrió un error inesperado. Contacte al Administrador.')
     

@@ -3,7 +3,7 @@ import mysql.connector
 from typing import List
 from config.db_conn import DBConn
 from dao.interfaces.i_calificacion_dao import ICalificacionDAO
-from domain.calificacion import Calificacion
+from src.domain.calificacion import Calificacion
 
 class CalificacionDAO(ICalificacionDAO):
     """
@@ -42,14 +42,18 @@ class CalificacionDAO(ICalificacionDAO):
                 row = cursor.fetchone()
                 if row is None:
                     return None
+                
+                fecha = row[4]
+                if hasattr(fecha, "strftime"):
+                    fecha = fecha.strftime("%Y-%m-%d")
+                    
                 return Calificacion(
                     row[0],
                     row[1],
                     row[2],
                     row[3],
-                    row[4],
-                    row[5],
-                    row[6]
+                    fecha,
+                    row[5]
                 )
             except mysql.connector.Error as err:
                 raise err
@@ -62,6 +66,7 @@ class CalificacionDAO(ICalificacionDAO):
                     SELECT id_calificacion, id_estudiante, id_asignatura, nota, fecha, descripcion
                     FROM Calificacion
                     WHERE id_estudiante = %s
+                    ORDER BY id_calificacion DESC
                 """
                 cursor.execute(query, (id_estudiante,))
                 rows = cursor.fetchall()

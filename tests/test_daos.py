@@ -20,6 +20,7 @@ def conn():
     try:
         with conn.cursor() as cursor:
             cursor.execute("CREATE DATABASE IF NOT EXISTS test_sistema_gestion_educativo")
+            cursor.execute("USE test_sistema_gestion_educativo")
             cursor.execute("""
                            CREATE TABLE IF NOT EXISTS Docente(
                                id_docente INT AUTO_INCREMENT, 
@@ -37,7 +38,7 @@ def conn():
                             id_curso INT NOT NULL,
                             id_division INT NOT NULL,
                             estado_estudiante BOOLEAN NOT NULL,
-                            PRIMARY KEY (id_estudiante),
+                            PRIMARY KEY (id_estudiante)
                             )
                            """)
             cursor.execute("""
@@ -48,7 +49,7 @@ def conn():
                             nota INT NOT NULL,
                             fecha DATE NOT NULL,
                             descripcion VARCHAR(60),
-                            PRIMARY KEY (id_calificacion),
+                            PRIMARY KEY (id_calificacion)
                             )
                            """)
             cursor.execute("DELETE FROM test_sistema_gestion_educativo.Docente")
@@ -147,7 +148,7 @@ class TestCalificacionDAO():
             cursor.execute("""
                     INSERT INTO test_sistema_gestion_educativo.Calificacion 
                     (id_estudiante, id_asignatura, nota, fecha, descripcion)
-                    VALUES (1, 1, 10, 2025-11-10, 'Nota parcial')
+                    VALUES (1, 1, 10, '2025-11-10', 'Nota parcial')
                 """)
             conn.commit()
             id_generada = cursor.lastrowid
@@ -170,7 +171,7 @@ class TestCalificacionDAO():
             cursor.execute("""
                     INSERT INTO test_sistema_gestion_educativo.Calificacion 
                     (id_estudiante, id_asignatura, nota, fecha, descripcion)
-                    VALUES (1, 1, 8, 2025-11-15, 'Nota final')
+                    VALUES (1, 1, 8, '2025-11-15', 'Nota final')
                 """)
             conn.commit()
             id_generado = cursor.lastrowid
@@ -194,7 +195,7 @@ class TestCalificacionDAO():
             cursor.execute("""
                     INSERT INTO test_sistema_gestion_educativo.Calificacion 
                     (id_estudiante, id_asignatura, nota, fecha, descripcion)
-                    VALUES (1, 1, 7, '2024-11-26', 'Prueba')
+                    VALUES (1, 1, 7, '2025-11-26', 'Prueba')
                 """)
             conn.commit()
             id_generado = cursor.lastrowid
