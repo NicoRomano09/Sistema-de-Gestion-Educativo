@@ -1,0 +1,38 @@
+# --- Entorno virtual ---
+venv/
+.venv/
+
+# --- Archivos de Python ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# --- Configuración local ---
+.env
+*.env
+.env.*
+
+# --- Logs ---
+*.log
+
+# --- Archivos de compilación ---
+build/
+dist/
+*.egg-info/
+
+# --- VSCode ---
+.vscode/
+.history/
+
+# --- Mac / Windows ---
+.DS_Store
+Thumbs.db
+
+# --- Carpeta de PyCharm ---
+.idea/
+
+# --- Archivos temporales ---
+*.tmp
+*.bak
+*.swp
