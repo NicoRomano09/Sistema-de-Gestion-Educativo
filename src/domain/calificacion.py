@@ -1,5 +1,6 @@
 import __future__
 from typing import List
+from datetime import date
 
 class Calificacion:
     """
@@ -12,7 +13,7 @@ class Calificacion:
         id_estudiante: int,
         id_asignatura: int,
         nota: int,
-        fecha: str,
+        fecha: date,
         descripcion: str
         ):
         self.__id_calificacion = id_calificacion
@@ -66,13 +67,13 @@ class Calificacion:
             return TypeError("La nueva descripción debe ingresarse en string/cadena de texto para ser válida.")
 
     @property
-    def fecha(self) -> str:
+    def fecha(self) -> date:
         return self.__fecha
     
     @fecha.setter
-    def fecha(self, nueva_fecha: str):
-        if not isinstance(nueva_fecha, str):
-            return TypeError("La nueva fecha debe ingresarse en str/cadena de texto para ser válida.")
+    def fecha(self, nueva_fecha: date):
+        if not isinstance(nueva_fecha, date):
+            return TypeError("La nueva fecha debe ser un objeto 'datetime.date' para ser válida.")
         self.__fecha = nueva_fecha
         
     def mostrar_datos_calificacion(self):

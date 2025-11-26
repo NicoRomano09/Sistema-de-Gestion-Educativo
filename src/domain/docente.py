@@ -19,7 +19,7 @@ class Docente:
         self.__nombre_docente = nombre_docente
         self.__apellido_docente = apellido_docente
         self.__email = email
-        self.__contrasena = contrasena
+        self.__contrasena_hash = contrasena
         
         self.id_asignaturas = []
         self.id_cursos = []
@@ -59,13 +59,13 @@ class Docente:
         if not re.match(regex, nuevo_email):
             raise ValueError("El nuevo email ingresado no es válido.")
         self.__email = nuevo_email
-        
-    @property
-    def contrasena(self) -> str:
-        return self.__contrasena
     
-    @contrasena.setter
-    def contrasena(self, nueva_contrasena):
+    @property
+    def contrasena_hash(self) -> str:
+        return self.__contrasena_hash
+    
+    @contrasena_hash.setter
+    def contrasena_hash(self, nueva_contrasena):
         if len(nueva_contrasena) < 8:
             raise ValueError("La contraseña ingresada debe contener 8 carácteres o mas.")
         if not any(c.isdigit() for c in nueva_contrasena):
@@ -73,7 +73,13 @@ class Docente:
         
         # Encriptar y guardar
         hashed = bcrypt.hashpw(nueva_contrasena.encode("utf-8"), bcrypt.gensalt())
-        self.__contrasena = hashed.decode("utf-8")
+        self.__contrasena_hash = hashed.decode("utf-8")
+        
+    def verificar_contrasena(self, contrasena_plana: str):
+        return bcrypt.checkpw(
+            contrasena_plana.encode("utf-8"),
+            self.__contrasena_hash.encode("utf-8")
+        )
     
     def agregar_id_asignaturas(self, id_nueva_asignatura: int):
         if not isinstance(id_nueva_asignatura, int):
