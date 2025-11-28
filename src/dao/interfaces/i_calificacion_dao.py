@@ -1,7 +1,7 @@
 import __future__
 from abc import ABC, abstractmethod
 from typing import Optional, Any, List
-from domain.calificacion import Calificacion
+from src.domain.calificacion import Calificacion
 
 class ICalificacionDAO(ABC):
     """

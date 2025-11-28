@@ -1,7 +1,7 @@
 import __future__
 from typing import List
-from dao.calificacion_dao import CalificacionDAO
-from domain.calificacion import Calificacion
+from src.dao.calificacion_dao import CalificacionDAO
+from src.domain.calificacion import Calificacion
 
 class GestorCalificaciones:
     """

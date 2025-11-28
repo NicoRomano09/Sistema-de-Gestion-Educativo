@@ -1,7 +1,7 @@
 import __future__
 from abc import ABC, abstractmethod
 from typing import Optional, Any
-from domain.docente import Docente
+from src.domain.docente import Docente
 
 class IDocenteDAO(ABC):
     """

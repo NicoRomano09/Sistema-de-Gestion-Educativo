@@ -1,8 +1,8 @@
 import __future__
 import bcrypt
 from typing import Optional
-from dao.docente_dao import DocenteDAO
-from domain.docente import Docente
+from src.dao.docente_dao import DocenteDAO
+from src.domain.docente import Docente
 
 class GestorDocente:
     """
@@ -21,12 +21,21 @@ class GestorDocente:
         docente = self.dao.obtener_docente_por_email(email)
         if not docente:
             return None
-        hashed = docente.pop("contrasena", None)
+        hashed = docente.contrasena_hash
         
         if not hashed:
             return None
         ok = bcrypt.checkpw(contrasena_plana.encode("utf-8"), hashed.encode("utf-8"))
-        return docente if ok else None
+        
+        if ok:
+            return {
+            "id_docente": docente.id_docente,
+            "nombre": docente.nombre_docente,
+            "apellido": docente.apellido_docente,
+            "email": docente.email
+        }
+
+        return None
     
     def obtener_docente(self, id_docente: int) -> Docente | None:
         if not isinstance(id_docente, int):

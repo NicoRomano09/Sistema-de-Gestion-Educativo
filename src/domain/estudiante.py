@@ -73,12 +73,11 @@ class Estudiante:
     
     def mostrar_datos_estudiante(self) -> str:
         return (
-            "DATOS DEL ESTUDIANTE\n"
+            "\nDATOS DEL ESTUDIANTE\n\n"
             f"ID Estudiante: {self.id_estudiante}\n"
             f"Nombre y Apellido: {self.nombre_estudiante} {self.apellido_estudiante}\n"
             f"ID Curso: {self.id_curso}\n"
             f"ID Division: {self.id_division}\n"
-            f"Asistencia: {self.asistencia}%\n"
-            f"Estado Estudiante: {self.estado_estudiante}"
+            f"Estado Estudiante: {self.estado_estudiante}\n"
         )
     

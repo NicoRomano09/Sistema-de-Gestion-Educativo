@@ -1,6 +1,6 @@
 import __future__
-from services.gestor_docente import GestorDocente
-from dao.docente_dao import DocenteDAO
+from src.services.gestor_docente import GestorDocente
+from src.dao.docente_dao import DocenteDAO
 from config.db_conn import DBConn
 
 def menu_docente(id_docente: int):
@@ -10,14 +10,7 @@ def menu_docente(id_docente: int):
     
     docente = gestor_docente.obtener_docente(id_docente)
     if docente:
-        return (
-            "MIS DATOS"
-            f'ID Docente: {docente.id_docente}'
-            f'Nombre: {docente.nombre_docente}'
-            f'Apellido: {docente.apellido_docente}'
-            f'email: {docente.email}'
-        )
-    
+        print(docente.mostrar_datos_docente())
     else:
-        return 'No se pudo acceder a la información.'
+        print("No se recuperaron datos.")
     

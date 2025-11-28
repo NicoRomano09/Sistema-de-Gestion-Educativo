@@ -1,12 +1,12 @@
 import __future__
-from services.gestor_calificaciones import GestorCalificaciones
-from dao.calificacion_dao import CalificacionDAO
+from src.services.gestor_calificaciones import GestorCalificaciones
+from src.dao.calificacion_dao import CalificacionDAO
 from config.db_conn import DBConn
-from domain.calificacion import Calificacion
+from src.domain.calificacion import Calificacion
 from datetime import datetime, date
 
-def menu_calificaciones():
-    print("Menú Calificaciones")
+def menu_calificaciones(session):
+    print("\nMenú Calificaciones")
     db_conn = DBConn(config_file='config.ini')
     dao = CalificacionDAO(db_conn)
     gestor_calificacion = GestorCalificaciones(dao)
@@ -63,8 +63,8 @@ def menu_calificaciones():
                 if calificaciones_encontradas:
                     print("Calificaciones: ")
                     for c in calificaciones_encontradas:
-                        print(c)
-                
+                        print(c.mostrar_datos_calificacion())
+                        
                 else:
                     print("El ID del estudiante no posee calificaciones.")
             except TypeError:

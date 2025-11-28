@@ -2,7 +2,7 @@ import __future__
 import mysql.connector
 from typing import List
 from config.db_conn import DBConn
-from dao.interfaces.i_calificacion_dao import ICalificacionDAO
+from src.dao.interfaces.i_calificacion_dao import ICalificacionDAO
 from src.domain.calificacion import Calificacion
 
 class CalificacionDAO(ICalificacionDAO):

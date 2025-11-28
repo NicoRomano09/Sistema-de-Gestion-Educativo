@@ -1,7 +1,7 @@
 import __future__
 import mysql.connector
 from typing import Optional, Any
-from dao.interfaces.i_docente_dao import IDocenteDAO
+from src.dao.interfaces.i_docente_dao import IDocenteDAO
 from src.domain.docente import Docente
 from config.db_conn import DBConn
 

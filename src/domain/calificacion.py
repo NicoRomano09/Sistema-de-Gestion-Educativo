@@ -78,11 +78,11 @@ class Calificacion:
         
     def mostrar_datos_calificacion(self):
         return (
-            "DATOS DE LA CALIFICACION\n"
+            "\nDATOS DE LA CALIFICACION\n"
             f"ID Calificación: {self.id_calificacion}\n"
             f"ID Estudiante: {self.id_estudiante}\n"
             f"ID Asignatura: {self.id_asignatura}\n"
-            f"Nota: {self.nota}"
-            f"Fecha: {self.fecha}"
-            f"Descripción: {self.descripcion}"
+            f"Nota: {self.nota}\n"
+            f"Fecha: {self.fecha}\n"
+            f"Descripción: {self.descripcion}\n"
         )

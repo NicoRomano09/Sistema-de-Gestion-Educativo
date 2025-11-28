@@ -1,10 +1,11 @@
 from __future__ import annotations
-from services.gestor_docente import GestorDocente
+import bcrypt
+from src.services.gestor_docente import GestorDocente
 from config.db_conn import DBConn
-from dao.docente_dao import DocenteDAO
-from domain.docente import Docente
-from ui.menu_principal import menu_principal
-from ui.func_validar_formato import validar_email
+from src.dao.docente_dao import DocenteDAO
+from src.domain.docente import Docente
+from src.ui.menu_principal import menu_principal
+from src.ui.func_validar_formato import validar_email
 
 
 def main():
@@ -30,15 +31,17 @@ def main():
                 if existente:
                     raise ValueError("Ya existe un docente con el mail ingresado.")
                 
-                if contrasena < 8:
+                if len(contrasena) < 8:
                     raise ValueError("Contraseña invalida: Debe contener al menos 8 carácteres.")
+                
+                contrasena_hash = bcrypt.hashpw(contrasena.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
                 
                 docente = Docente(
                     id_docente=None,
                     nombre_docente=nombre_docente,
                     apellido_docente=apellido_docente,
                     email=email,
-                    contrasena_hash=contrasena
+                    contrasena=contrasena_hash
                 )
                 
                 resultado = gestor_docente.registrar_docente(docente)

@@ -1,7 +1,7 @@
 import __future__
 from typing import List
-from curso import Curso
-from division import Division
+from src.domain.curso import Curso
+from src.domain.division import Division
 
 class Establecimiento:
     """

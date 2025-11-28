@@ -1,7 +1,7 @@
 import __future__
 from typing import List
-from dao.estudiante_dao import EstudianteDAO
-from domain.estudiante import Estudiante
+from src.dao.estudiante_dao import EstudianteDAO
+from src.domain.estudiante import Estudiante
 
 class GestorEstudiantes:
     """

@@ -2,8 +2,8 @@ import __future__
 import mysql.connector
 from typing import Optional, List
 from config.db_conn import DBConn
-from dao.interfaces.i_estudiante_dao import IEstudianteDAO
-from domain.estudiante import Estudiante
+from src.dao.interfaces.i_estudiante_dao import IEstudianteDAO
+from src.domain.estudiante import Estudiante
 
 class EstudianteDAO(IEstudianteDAO):
     """

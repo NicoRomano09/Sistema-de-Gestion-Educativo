@@ -1,10 +1,10 @@
 import __future__
 from config.db_conn import DBConn
-from dao.estudiante_dao import EstudianteDAO
-from services.gestor_estudiantes import GestorEstudiantes
+from src.dao.estudiante_dao import EstudianteDAO
+from src.services.gestor_estudiantes import GestorEstudiantes
 
-def menu_estudiantes():
-    print("Menú Estudiantes")
+def menu_estudiantes(session):
+    print("\nMenú Estudiantes")
     db_conn = DBConn(config_file='config.ini')
     dao = EstudianteDAO(db_conn)
     gestor_estudiantes = GestorEstudiantes(dao)
@@ -18,27 +18,27 @@ def menu_estudiantes():
             try:
                 id_estudiante = int(input("Ingrese el ID del estudiante: "))
                 estudiante = gestor_estudiantes.obtener_estudiante(id_estudiante)
-                return (
-                    "DATOS DEL ESTUDIANTE"
-                    f'ID Estudiante: {estudiante.id_estudiante}'
-                    f'Nombre y Apellido: {estudiante.nombre_estudiante} {estudiante.apellido_estudiante}'
-                    f'Estado Estudiante: {estudiante.estado_estudiante}'
-                    f'ID Curso: {estudiante.id_curso}'
-                    f'ID División: {estudiante.id_division}'
-                )
+                if estudiante:
+                    print(estudiante.mostrar_datos_estudiante())
+                else:
+                    print("No se recupero ningún dato.")
             except TypeError:
-                return "El ID ingresado es inválido. Intentelo nuevamente."
+                print("El ID ingresado es inválido. Intentelo nuevamente.")
             
         elif subopcion == "2":
             try:
                 id_curso = int(input("Ingrese el ID del curso: "))
                 estudiantes = gestor_estudiantes.listar_estudiantes_por_curso(id_curso)
-                return (
-                    'ESTUDIANTES: \n'
-                    f'{estudiantes}'
-                    )
+                if estudiante:
+                    print("Lista de estudiantes:")
+                    for e in estudiantes:
+                        print(e.mostrar_datos_estudiante())  
+                else:
+                    print("No se recupero ningún dato.")
             except TypeError:
-                return "El ID ingresado es inválido. Intentelo nuevamente"
+                print("El ID ingresado es inválido. Intentelo nuevamente")
+        elif subopcion == "3":
+            break
         
         else:
-            return 'La opción ingresada es inválida.'
+            print('La opción ingresada es inválida.')
